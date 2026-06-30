@@ -506,3 +506,4 @@ Based on the requirements, the following UI mockups/designs are needed:
 
 **Document Status:** Ready for Discussion  
 **Last Updated:** June 29, 2026
+**Author:** Vaibhav Tarale
