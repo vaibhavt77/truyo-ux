@@ -145,7 +145,6 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 
 **Questions:**
 - Should SiloID be auto-generated or user-entered?
-- Should there be a UI confirmation for "no delete" capability?
 - How many silos per org typically? (affects list UI complexity)
 
 ---
