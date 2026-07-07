@@ -3,14 +3,46 @@
 **Project:** Truyo Silo Extension  
 **Role:** Lead UX/UI Designer  
 **Product Owner:** Rod  
-**Date:** June 29, 2026  
-**Status:** Requirements Understanding Phase
+**Date:** June 29, 2026 (updated after June 30, 2026 technical meeting)  
+**Status:** Requirements Clarified - Phase 1 Scope Defined
 
 ---
 
 ## Executive Summary
 
-This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It identifies all UI-related components that need design, clarifies user flows, and documents key questions to be addressed in the detailed requirements meeting with the Product Owner.
+This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It identifies UI-related components, captures decisions from the June 30, 2026 implementation discussion, and tracks which UX questions are answered vs still open.
+
+---
+
+## Section 0: June 30 Meeting Outcomes (Confirmed)
+
+### 0.1 Phase 1 Delivery Scope (Confirmed)
+1. Silo management in configuration: create and rename only (no delete).
+2. Brand to silo mapping.
+3. Preference to silo mapping in preference management.
+4. Rollout to other modules (privacy requests, consent, user rights) is deferred to later phases.
+
+### 0.2 Data and Relationship Decisions (Confirmed)
+- One brand can be associated with only one silo at a time.
+- One silo can be associated with multiple brands.
+- A brand can be moved from one silo to another (reassignment allowed).
+- Silo records cannot be deleted.
+
+### 0.3 UI Visibility Decisions (Confirmed)
+- Silo information should be visible in configuration/admin contexts.
+- Silo should remain hidden in non-configuration operational and consumer contexts in Phase 1.
+- In branding screens, silo should be visible for reference; edits should occur in the dedicated mapping/configuration flow (single place to change).
+- Show silo name in UI where needed, not silo ID.
+
+### 0.4 Preferences Integration Decisions (Confirmed)
+- Preferences should be linked to silo ID.
+- Each silo can connect to multiple system types (for example, Salesforce and Klaviyo).
+- Per silo, only one configuration per system type is allowed (not two Klaviyo configurations in the same silo).
+
+### 0.5 UX Implementation Direction (Confirmed)
+- Reuse the existing configuration pattern similar to countries screens.
+- Keep add and update actions.
+- Remove delete action for silos.
 
 ---
 
@@ -30,9 +62,9 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 #### 1.1.2 Silo Assignment Interface
 - **Purpose:** Assign silos to various entities
 - **Assignment Targets:**
-  - Brands
-  - Cookie configurations
-  - Preferences
+   - Brands (Phase 1)
+   - Preferences (Phase 1)
+   - Cookie configurations (Later phase)
 
 #### 1.1.3 Brand Management with Silo Assignment
 - **Purpose:** Manage brands and their silo associations
@@ -44,6 +76,7 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 
 #### 1.1.4 Cookie Configuration with Silo Assignment
 - **Purpose:** Configure cookie banners with silo context
+- **Phase Note:** Out of scope for Phase 1; keep in backlog for later phases.
 - **Key Features:**
   - Create/edit cookie banners
   - Assign/change silo for banner
@@ -52,6 +85,7 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 
 #### 1.1.5 Permissions Management UI
 - **Purpose:** Manage user and group permissions for silo access
+- **Phase Note:** Out of scope for Phase 1; brand-based restrictions remain in place for now.
 - **Key Features:**
   - Assign users/groups to specific silos
   - Define allowedSilos list for users
@@ -147,6 +181,12 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 - Should SiloID be auto-generated or user-entered?
 - How many silos per org typically? (affects list UI complexity)
 
+**Meeting Answers (June 30):**
+- Delete is not supported.
+- Add and rename/update are required.
+- Reuse existing configuration UI pattern (similar to countries screen).
+- Silo name should be shown in UI; silo ID should not be exposed broadly in UI.
+
 ---
 
 ### 2.2 Admin Flow: Assign Silo to Brand
@@ -164,6 +204,12 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 - How should "silo is already assigned to another brand" be handled?
 - Should there be bulk brand assignment to a silo?
 
+**Meeting Answers (June 30):**
+- A brand can be reassigned to a different silo.
+- A brand cannot belong to multiple silos simultaneously (1:1 brand to silo).
+- A silo can contain multiple brands (1:N silo to brands).
+- Silo mapping visibility is needed in both silo and brand views, but change actions should be centralized in one mapping/configuration place.
+
 ---
 
 ### 2.3 Operator Flow: Manage Consumer Preferences (Brand Portal)
@@ -178,6 +224,10 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 **Questions:**
 - Should the silo name be visible in the UI or kept hidden?
 - Should operators see that a consumer has data in other silos?
+
+**Meeting Answers (June 30):**
+- Silo should be hidden outside configuration context in Phase 1.
+- Operators/consumers should not see silo details in regular operational/portal screens in Phase 1.
 
 ---
 
@@ -252,6 +302,27 @@ This document outlines the UX/UI aspects of the Truyo Silo Extension feature. It
 ---
 
 ## Section 3: Critical UX/UI Questions for Detailed Meeting
+
+### 3.0 Resolution Tracker (After June 30 Meeting)
+
+**Answered:**
+- 3.1 (visibility intent): context-dependent; configuration-visible, otherwise hidden in Phase 1.
+- 3.3 (transparency baseline): admin/configuration sees silo names; operators/consumers do not see silo details in Phase 1.
+- 3.4.1 (brand-specific portal visibility): silo remains hidden in consumer context.
+- 3.6.3 (brand-silo change possibility): reassignment allowed.
+
+**Partially Answered:**
+- 3.3.2 (where to show silo context): confirmed for configuration and brand/silo mapping views; exact UI layout still to be finalized.
+- 3.4.2 (parent org brand selection UX): brand remains primary user-facing concept; final interaction pattern still open.
+
+**Still Open (Needs Product/Engineering Sign-off):**
+- 3.2 default silo behavior and first-load selection rules.
+- 3.5 permission model UX for explicit allowedSilos admin screens.
+- 3.6.1 and 3.6.2 error handling for invalid or missing silo access.
+- 3.7 search behavior across silos vs brand context.
+- 3.8 responsive/mobile treatment.
+- 3.9 visual coding and empty-state language.
+- 3.10 accessibility specifics (target WCAG level and announcement rules).
 
 ### **3.1 Silo Selector/Filter Component**
 
@@ -454,11 +525,17 @@ Based on the requirements, the following UI mockups/designs are needed:
 - [ ] Silo Management Dashboard
 - [ ] Create/Edit Silo Modal
 - [ ] Brand Management with Silo Assignment
+
+### **Phase 1 Priority Artifacts (Confirmed):**
+- [ ] Silo Management Dashboard (add + rename, no delete)
+- [ ] Create/Edit Silo Modal
+- [ ] Brand to Silo Mapping View (with one-place edit behavior)
+- [ ] Preferences Management Updates for Silo-linked configuration
+- [ ] Read-only silo visibility in brand view
+
+### **Later-Phase Artifacts (Deferred):**
 - [ ] Cookie Configuration with Silo Assignment
 - [ ] User Permission Assignment (silo-based access)
-
-### **Operational Interfaces:**
-- [ ] Preferences Management Screen (with silo selector)
 - [ ] Privacy Requests View (with silo filtering)
 - [ ] Consent Data Management (with silo filtering)
 
@@ -483,26 +560,26 @@ Based on the requirements, the following UI mockups/designs are needed:
 ## Section 5: Key Design Constraints & Notes
 
 1. **No Delete Operation:** Silos cannot be deleted - UI must enforce/indicate this
-2. **Immutable Silo Assignment:** Data's silo cannot be changed after creation (only applies to new data)
+2. **Brand-Silo Relationship Rule:** Brand has 1 active silo at a time; brand reassignment to another silo is allowed
 3. **Default Silo:** Must exist and be transparent to system (may be transparent to users too)
 4. **Backward Compatibility:** Existing clients should work unchanged (consider legacy UI updates)
 5. **Security:** Silo filtering must be consistent across UI, API, and DB layers
 6. **Permission-Based Visibility:** Users only see data for silos they have access to
+7. **UI Exposure Rule (Phase 1):** Silo is primarily a configuration concept; do not expose broadly in consumer/operator UI
 
 ---
 
 ## Next Steps
 
-1. Schedule detailed requirements meeting with Rod (Product Owner)
-2. Present these questions and get clarifications
-3. Create detailed wireframes/mockups based on responses
-4. Design system component definitions
-5. Create interaction specifications and flows
-6. Prepare accessibility audit plan
-7. Create design specs document with all answers integrated
+1. Finalize open questions listed in Section 3.0 with Product + Engineering.
+2. Create Phase 1 wireframes for silo management, brand mapping, and preferences updates.
+3. Document "single place to edit mapping" interaction rules and validation states.
+4. Define API/response assumptions for showing silo name in configuration and brand read-only contexts.
+5. Prepare handoff notes with phase boundaries (what is in Phase 1 vs deferred).
+6. Create a follow-up backlog for consent, privacy requests, and permissions UX.
 
 ---
 
-**Document Status:** Ready for Discussion  
-**Last Updated:** June 29, 2026
+**Document Status:** Updated After Requirements Meeting  
+**Last Updated:** July 7, 2026
 **Author:** Vaibhav Tarale
